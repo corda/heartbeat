@@ -12,7 +12,9 @@ open class HeartContract : Contract {
         val contractID = "com.heartbeat.HeartContract"
     }
 
-    override fun verify(tx: LedgerTransaction) { }
+    override fun verify(tx: LedgerTransaction) {
+        // Omitted for the purpose of this sample.
+    }
 
     interface Commands : CommandData {
         class Beat : Commands

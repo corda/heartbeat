@@ -11,7 +11,7 @@ A node starts its heartbeat by calling the `StartHeartbeatFlow`. This creates a 
 When the `HeartbeatFlow` runs one second later, it consumes the existing `HeartState` and creates a new `HeartState`. 
 The new `HeartState` also has a scheduled activity to start the `HeatbeatFlow` in one second.
 
-In the way, calling the `StartHeartbeatFlow` creates an endless chain of `HeartbeatFlow`s one second apart.
+In this way, calling the `StartHeartbeatFlow` creates an endless chain of `HeartbeatFlow`s one second apart.
 
 # Pre-requisites:
   
@@ -34,6 +34,6 @@ If you now start monitoring the node's flow activity...
 
     flow watch
 
-...you will see the `Heartbeat` flow running every second until you shut down the node:
+...you will see the `Heartbeat` flow running every second until you close the Flow Watch window using `ctrl/cmd + c`:
 
     xxxxxxxx-xxxx-xxxx-xx Heartbeat xxxxxxxxxxxxxxxxxxxx Lub-dub

@@ -17,10 +17,12 @@ import java.time.Instant
 class HeartState(private val me: Party) : SchedulableState {
     override val participants get() = listOf(me)
     // A heartbeat will be emitted every second.
-    // Do not use Instant.now or other methods to get the current time in nextScheduledActivity,
-    // or the time will be constantly re-evaluated and always be in the future.
+    // We get the time when the scheduled activity will occur here rather than in nextScheduledActivity. This is
+    // because calling Instant.now() in nextScheduledActivity returns the time at which the function is called, rather
+    // than the time at which the state was created.
     private val nextActivityTime = Instant.now().plusSeconds(1)
 
+    // Defines the scheduled activity to be conducted by the SchedulableState.
     override fun nextScheduledActivity(thisStateRef: StateRef, flowLogicRefFactory: FlowLogicRefFactory): ScheduledActivity? {
         return ScheduledActivity(flowLogicRefFactory.create(HeartbeatFlow::class.java, thisStateRef), nextActivityTime)
     }
