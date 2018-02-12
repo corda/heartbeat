@@ -4,8 +4,7 @@ import net.corda.client.rpc.notUsed
 import net.corda.node.internal.StartedNode
 import net.corda.testing.node.MockNetwork
 import net.corda.testing.node.MockNetwork.MockNode
-import net.corda.testing.setCordappPackages
-import net.corda.testing.unsetCordappPackages
+import net.corda.testing.node.startFlow
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -13,32 +12,29 @@ import kotlin.test.assertEquals
 
 class FlowTests {
     lateinit var network: MockNetwork
-    lateinit var a: StartedNode<MockNode>
+    lateinit var node: StartedNode<MockNode>
 
     @Before
     fun setup() {
-        setCordappPackages("com.heartbeat")
-        network = MockNetwork(threadPerNode = true)
-        val nodes = network.createSomeNodes(1)
-        a = nodes.partyNodes[0]
+        network = MockNetwork(listOf("com.heartbeat"), threadPerNode = true)
+        node = network.createNode()
     }
 
     @After
     fun tearDown() {
         network.stopNodes()
-        unsetCordappPackages()
     }
 
     @Test
     fun `heartbeat occurs every second`() {
         val flow = StartHeartbeatFlow()
-        a.services.startFlow(flow).resultFuture
+        node.services.startFlow(flow).get()
 
         val enoughTimeForFiveScheduledTxs: Long = 5500
         Thread.sleep(enoughTimeForFiveScheduledTxs)
 
-        val recordedTxs = a.database.transaction {
-            val (recordedTxs, futureTxs) = a.services.validatedTransactions.track()
+        val recordedTxs = node.database.transaction {
+            val (recordedTxs, futureTxs) = node.services.validatedTransactions.track()
             futureTxs.notUsed()
             recordedTxs
         }
