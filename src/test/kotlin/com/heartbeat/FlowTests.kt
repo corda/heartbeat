@@ -1,9 +1,8 @@
 package com.heartbeat
 
 import net.corda.client.rpc.notUsed
-import net.corda.node.internal.StartedNode
 import net.corda.testing.node.MockNetwork
-import net.corda.testing.node.MockNetwork.MockNode
+import net.corda.testing.node.StartedMockNode
 import net.corda.testing.node.startFlow
 import org.junit.After
 import org.junit.Before
@@ -12,7 +11,7 @@ import kotlin.test.assertEquals
 
 class FlowTests {
     lateinit var network: MockNetwork
-    lateinit var node: StartedNode<MockNode>
+    lateinit var node: StartedMockNode
 
     @Before
     fun setup() {
