@@ -32,7 +32,7 @@ class FlowTests {
         val enoughTimeForFiveScheduledTxs: Long = 5500
         Thread.sleep(enoughTimeForFiveScheduledTxs)
 
-        val recordedTxs = node.database.transaction {
+        val recordedTxs = node.transaction {
             val (recordedTxs, futureTxs) = node.services.validatedTransactions.track()
             futureTxs.notUsed()
             recordedTxs
