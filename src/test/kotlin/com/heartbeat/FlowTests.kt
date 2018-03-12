@@ -3,7 +3,6 @@ package com.heartbeat
 import net.corda.client.rpc.notUsed
 import net.corda.testing.node.MockNetwork
 import net.corda.testing.node.StartedMockNode
-import net.corda.testing.node.startFlow
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -27,7 +26,7 @@ class FlowTests {
     @Test
     fun `heartbeat occurs every second`() {
         val flow = StartHeartbeatFlow()
-        node.services.startFlow(flow).get()
+        node.startFlow(flow).get()
 
         val enoughTimeForFiveScheduledTxs: Long = 5500
         Thread.sleep(enoughTimeForFiveScheduledTxs)
